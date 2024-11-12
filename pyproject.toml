@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "tg-bot-sample"
+version = "0.1.0"
+description = ""
+authors = ["Gyrman Daniil <gyrman01app@mail.ru>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+aiogram = "^3.14.0"
+pydantic-settings = "^2.6.1"
+sqlalchemy = "^2.0.36"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
