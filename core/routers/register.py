@@ -11,7 +11,7 @@ from core.validators.phone import validate_phone_number
 from core.validators.email import email_validator
 from core.db.scripts import create_user, get_user, check_payment, update_user_phone, get_user_by
 from core.keyboards.wish_kb import instruction, instruction_2
-from texts import REG_MSG, END_REG_MSG, END_REG_MSG_2, REG_MSG_2
+from texts import REG_MSG, END_REG_MSG, END_REG_MSG_2, REG_MSG_2, HELLO_MSG, HELLO_MSG_2, HELLO_MSG_3
 
 router = Router()
 
@@ -21,9 +21,9 @@ async def show_form(mes: Message, state: FSMContext):
     user = get_user_by(mes.from_user.id)[0]
     update_user_phone(data.get('phone'), data.get('tg_id'))
     if user.get("join_date").date() <= datetime.date(2024, 12, 2):
-        await mes.answer(text=END_REG_MSG, reply_markup=instruction.as_markup())
+        await mes.answer(text=REG_MSG_2, reply_markup=instruction.as_markup())
     else:
-        await mes.answer(text=END_REG_MSG_2, reply_markup=instruction_2.as_markup())
+        await mes.answer(text=REG_MSG_2, reply_markup=instruction_2.as_markup())
     await state.clear()
 
 
@@ -69,12 +69,13 @@ async def get_name(mes: Message, state: FSMContext):
 async def start_reg(mes: Message, state: FSMContext):
     user = get_user(mes.from_user.id)
     if user:
-        await mes.answer(text=END_REG_MSG,
+        await mes.answer(text=HELLO_MSG_3,
                          reply_markup=instruction.as_markup())
+        await mes.answer(text=REG_MSG_2, reply_markup=instruction_2.as_markup())
         return
     if user and user.get("join_date") <= datetime.date(2024, 12, 2):
-        await mes.answer(text=REG_MSG)
+        await mes.answer(text=HELLO_MSG)
     else:
-        await mes.answer(text=REG_MSG_2)
+        await mes.answer(text=HELLO_MSG_2)
     await state.update_data(tg_id=mes.from_user.id)
     await state.set_state(Form.name)
