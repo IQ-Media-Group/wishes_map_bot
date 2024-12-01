@@ -43,11 +43,15 @@ async def get_callback(call: CallbackQuery):
             if user.get("day_counter") <= 9:
                 user_day = user.get("day_counter", 1)
                 await call.message.edit_reply_markup(reply_markup=instruction_3.as_markup())
-                message = await call.message.answer(text=wish_s.get("tasks").get(str(user_day)))
-                try:
-                    create_del_msg("task", message.message_id, message.chat.id)
-                except:
-                    ...
+                message = await call.message.answer_video(chat_id=user.get("tg_id"),
+                                               video="BAACAgIAAxkBAAICfGdMk_tAL4ODpJECe5xfHRbsZJG5AAL5ZgAC-XloSsMCUum9c3clNgQ")
+                create_del_msg("task", message.message_id, message.chat.id)
+                message = await call.message.answer_video(chat_id=user.get("tg_id"),
+                                               video="BAACAgIAAxkBAAICfmdMlFH-CgelmudhTIcZFhicFb3lAAL_ZgAC-XloSoQqxyXln0KwNgQ")
+                create_del_msg("task", message.message_id, message.chat.id)
+                message = await call.message.answer(chat_id=user.get("tg_id"),
+                                                 text=wish_s.get("tasks").get(str(user_day)))
+                create_del_msg("task", message.message_id, message.chat.id)
         else:
             await call.message.answer(text="Не удается найти оплату")
 
