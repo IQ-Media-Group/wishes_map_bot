@@ -123,7 +123,7 @@ async def send_end_wish_day_msg(bot: Bot):
 @router.message(F.document | F.photo)
 async def get_user_map(msg: Message):
     user = get_user_by(msg.chat.id)[0]
-    if user.get("day_counter") == 10 and user.get("is_started"):
+    if user.get("day_counter") == 10 and user.get("payment_status"):
         await msg.answer("🎉")
         update_day_counter(user.get("tg_id"))
 
@@ -156,9 +156,7 @@ async def send_10_day(bot: Bot):
 async def send_11_day_msg(bot: Bot):
     users = get_11_days_users()
     for user in users:
-        print(user.get("day_counter" == 11 and user.get("is_started") == True))
-        print(user.get("day_counter"), user.get("is_started"))
-        if user.get("day_counter") == 11 and user.get("is_started"):
+        if user.get("day_counter") == 11 and user.get("payment_status"):
             await bot.send_message(chat_id=user.get("tg_id"), text="""Настал тот самый день! Сегодня вы получите инструкции, как сделать так, чтобы ваша карта заработала на полную мощность!""")
             update_day_counter(user.get("tg_id"))
             await bot.send_message(chat_id=user.get("tg_id"),

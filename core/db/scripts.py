@@ -213,7 +213,7 @@ def check_user_payment(email: str):
     if payments:
         return True
     else:
-        False
+        return False
 
 
 def update_users_status():
@@ -232,7 +232,7 @@ def update_users_status():
             res = conn.execute(stmt).fetchall()
         if res:
             with engine.connect() as conn:
-                stmt = update(tg_users).where(tg_users.c.email == user.get("email")).values(payment_status=True)
+                stmt = update(tg_users).where(tg_users.c.email == user.get("email")).values(payment_status=True, is_started=True)
                 conn.execute(stmt)
                 conn.commit()
 
