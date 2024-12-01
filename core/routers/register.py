@@ -72,7 +72,7 @@ async def start_reg(mes: Message, state: FSMContext):
         await mes.answer(text=END_REG_MSG,
                          reply_markup=instruction.as_markup())
         return
-    if user.get("join_date") <= datetime.date(2024, 12, 2):
+    if user and user.get("join_date") <= datetime.date(2024, 12, 2):
         await mes.answer(text=REG_MSG)
     else:
         await mes.answer(text=REG_MSG_2)
