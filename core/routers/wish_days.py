@@ -66,8 +66,10 @@ async def send_users_msg(bot: Bot):
                                     video="BAACAgIAAxkBAAICfmdMlFH-CgelmudhTIcZFhicFb3lAAL_ZgAC-XloSoQqxyXln0KwNgQ")
                 create_del_msg("task", message.message_id, message.chat.id)
                 message = await bot.send_video(chat_id=user.get("tg_id"),
-                                    video="BAACAgIAAxkBAAICfGdMk_tAL4ODpJECe5xfHRbsZJG5AAL5ZgAC-XloSsMCUum9c3clNgQ",
-                                    caption=wish_s.get("tasks").get(str(user_day)))
+                                    video="BAACAgIAAxkBAAICfGdMk_tAL4ODpJECe5xfHRbsZJG5AAL5ZgAC-XloSsMCUum9c3clNgQ")
+                create_del_msg("task", message.message_id, message.chat.id)
+                message = await bot.send_message(chat_id=user.get("tg_id"),
+                                               text=wish_s.get("tasks").get(str(user_day)))
                 create_del_msg("task", message.message_id, message.chat.id)
             else:
                 user_day = user.get("day_counter", 1)
