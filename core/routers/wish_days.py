@@ -206,6 +206,7 @@ async def send_end_wish_day_msg(bot: Bot):
         target_time = now.replace(hour=21, minute=0, second=0, microsecond=0)
 
         try:
+            print(now >= target_time, now, target_time)
             if now >= target_time:
                 await send_users_end_msg(bot)
         except Exception as e:
