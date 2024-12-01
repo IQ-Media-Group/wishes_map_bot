@@ -48,14 +48,16 @@ async def send_users_msg(bot: Bot):
     users = get_user_data()
     wish_s = get_wish_settings()
     for user in users:
-        user_day = user.get("day_counter", 1)
-        await bot.send_message(user.get("tg_id"), text=wish_s.get("tasks").get(str(user_day)))
+        if user.get("day_counter") <= 9:
+            user_day = user.get("day_counter", 1)
+            await bot.send_message(user.get("tg_id"), text=wish_s.get("tasks").get(str(user_day)))
 
 
 async def send_users_end_msg(bot: Bot):
     users = get_user_data()
     for user in users:
-        await bot.send_message(user.get("tg_id"), "Сегодняшний сектор карты уже готов?", reply_markup=y_or_n.as_markup())
+        if user.get("day_counter") <= 9:
+            await bot.send_message(user.get("tg_id"), "Сегодняшний сектор карты уже готов?", reply_markup=y_or_n.as_markup())
 
 
 async def send_wish_day_msg(bot: Bot):
@@ -97,7 +99,6 @@ async def send_end_wish_day_msg(bot: Bot):
         if now >= target_time:
             # target_time += datetime.timedelta(days=1)
             target_time = now + datetime.timedelta(minutes=2)
-            print(target_time)
 
         await asyncio.sleep((target_time - now).total_seconds())
 
