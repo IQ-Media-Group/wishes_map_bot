@@ -88,9 +88,7 @@ async def send_wish_day_msg(bot: Bot):
             logging.error(f"Failed to send message to 334019728: {e}")
 
         if now >= target_time:
-            # target_time += datetime.timedelta(days=1)
-            target_time = now + datetime.timedelta(minutes=2)
-            print(target_time)
+            target_time += datetime.timedelta(days=1)
 
         await asyncio.sleep((target_time - now).total_seconds())
 
@@ -102,7 +100,7 @@ async def send_end_wish_day_msg(bot: Bot):
         #     # users_data = get_user_data()
         #     # print(users_data)
         now = datetime.datetime.now()
-        target_time = now.replace(hour=9, minute=0, second=0, microsecond=0)
+        target_time = now.replace(hour=21, minute=0, second=0, microsecond=0)
 
         try:
             await send_users_end_msg(bot)
@@ -110,8 +108,7 @@ async def send_end_wish_day_msg(bot: Bot):
             logging.error(f"Failed to send message to 334019728: {e}")
 
         if now >= target_time:
-            # target_time += datetime.timedelta(days=1)
-            target_time = now + datetime.timedelta(minutes=2)
+            target_time += datetime.timedelta(days=1)
 
         await asyncio.sleep((target_time - now).total_seconds())
 
@@ -135,7 +132,7 @@ async def send_10_day_msg(bot: Bot):
 async def send_10_day(bot: Bot):
     while True:
         now = datetime.datetime.now()
-        target_time = now.replace(hour=9, minute=0, second=0, microsecond=0)
+        target_time = now.replace(hour=21, minute=30, second=0, microsecond=0)
 
         try:
             await send_10_day_msg(bot)
@@ -143,8 +140,7 @@ async def send_10_day(bot: Bot):
             logging.error(f"Failed to send message to 334019728: {e}")
 
         if now >= target_time:
-            # target_time += datetime.timedelta(days=1)
-            target_time = now + datetime.timedelta(minutes=2)
+            target_time += datetime.timedelta(days=1)
 
         await asyncio.sleep((target_time - now).total_seconds())
 
@@ -171,7 +167,6 @@ async def send_11_day(bot: Bot):
             logging.error(f"Failed to send message to 334019728: {e}")
 
         if now >= target_time:
-            # target_time += datetime.timedelta(days=1)
-            target_time = now + datetime.timedelta(minutes=2)
+            target_time += datetime.timedelta(days=1)
 
         await asyncio.sleep((target_time - now).total_seconds())

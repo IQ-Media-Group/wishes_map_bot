@@ -23,7 +23,7 @@ async def start(mes: Message, state: FSMContext):
 #     ...
 #
 #
-# @router.message(F.video)
-# def test2(msg: Message):
-#     print("test2")
-#     print(msg.video.file_id)
+@router.message(F.video)
+def test2(msg: Message):
+    print("test2")
+    print(msg.video.file_id)
