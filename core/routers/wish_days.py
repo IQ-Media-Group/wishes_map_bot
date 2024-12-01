@@ -109,6 +109,7 @@ async def send_wish_day_msg(bot: Bot):
 
 async def send_end_wish_day_msg(bot: Bot):
     while True:
+        await asyncio.sleep(5)
         # now = datetime.datetime.now()
         # if now.date() >= datetime.date(2024, 11, 27) and now.time() >= datetime.time(hour=9, minute=0, second=0):
         #     # users_data = get_user_data()
