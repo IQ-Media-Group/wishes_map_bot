@@ -19,8 +19,9 @@ async def start(mes: Message, state: FSMContext):
 @router.message(Command("test"))
 async def test(mes: Message):
     # await mes.answer(text=END_REG_MSG_2, reply_markup=instruction_2.as_markup())
-    await mes.answer_video(video="BAACAgIAAxkBAAIJGWdMiZtvbP5qykVpRx56GJCgdl39AAK9XwACHuRpSjNl9sCbrrVwNgQ")
+    await mes.answer_video(video="BAACAgIAAxkBAAICQ2dMj5NSDDcG9Tyz6bj7Ofu0FYsPAAKoZgAC-XloSgPtw2y8dmBeNgQ")
     ...
+
 
 @router.message(F.video)
 def test2(msg: Message):
