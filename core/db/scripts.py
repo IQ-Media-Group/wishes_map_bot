@@ -21,17 +21,17 @@ create_tables()
 
 
 def create_user(tg_id: int, fio: str, email: str) -> None:
-    is_started = False
-    if datetime.datetime.now().date() < datetime.date(2024, 12, 2):
-        is_started = True
+    # is_started = False
+    # if datetime.datetime.now().date() < datetime.date(2024, 12, 2):
+    #     is_started = True
     with engine.connect() as conn:
         stmt = insert(tg_users).values(
             [
                 {
                     "tg_id": tg_id,
                     "FIO": fio,
-                    "email": email,
-                    "is_started": is_started
+                    "email": email
+                    # "is_started": is_started
                 }
             ]
         ).on_conflict_do_nothing()
@@ -192,3 +192,48 @@ async def del_user_msgs(bot: Bot, msg_type: str):
             await bot.delete_message(chat_id=msg.get("chat_id"), message_id=msg.get("message_id"))
         except Exception as e:
             print(e)
+
+
+def get_10_days_users():
+    with engine.connect() as conn:
+        stmt = select(tg_users).where(tg_users.c.day_counter == 10)
+        result = conn.execute(stmt)
+        return [row._asdict() for row in result]
+
+
+def get_11_days_users():
+    with engine.connect() as conn:
+        stmt = select(tg_users).where(tg_users.c.day_counter == 11)
+        result = conn.execute(stmt)
+        return [row._asdict() for row in result]
+
+
+def check_user_payment(email: str):
+    payments = get_payment_from_db()
+    if payments:
+        return True
+    else:
+        False
+
+
+def update_users_status():
+    get_payments()
+    with engine.connect() as conn:
+        stmt = select(tg_users).where(tg_users.c.is_started == False)
+        result = conn.execute(stmt)
+        users = [row._asdict() for row in result]
+
+    for user in users:
+        with engine.connect() as conn:
+            stmt = select(payments).where(
+                payments.c.email == user.get("email")
+            ).where(payments.c.name.in_(
+                ['Марафон "Карта желаний 2025"', 'Предзапись', 'Марафон "Карта желаний 2025" Предзапись']))
+            res = conn.execute(stmt).fetchall()
+        if res:
+            with engine.connect() as conn:
+                stmt = update(tg_users).where(tg_users.c.email == user.get("email")).values(payment_status=True)
+                conn.execute(stmt)
+                conn.commit()
+
+

@@ -19,3 +19,6 @@ instruction_3.adjust(1)
 y_or_n = InlineKeyboardBuilder()
 y_or_n.add(InlineKeyboardButton(text="Да", callback_data="yes"))
 y_or_n.add(InlineKeyboardButton(text="Нет", callback_data="no"))
+
+final_kb = InlineKeyboardBuilder()
+final_kb.add(InlineKeyboardButton(text="Предзапись в академию Norland", url="https://norland.academy/anketa"))
