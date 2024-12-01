@@ -63,10 +63,10 @@ async def send_users_msg(bot: Bot):
                 user_day = user.get("day_counter", 1)
                 # message = await bot.send_message(user.get("tg_id"), text=wish_s.get("tasks").get(str(user_day)))
                 message = await bot.send_video(chat_id=user.get("tg_id"),
-                                    video="BAACAgIAAxkBAAICfmdMlFH-CgelmudhTIcZFhicFb3lAAL_ZgAC-XloSoQqxyXln0KwNgQ")
+                                    video="BAACAgIAAxkBAAICfGdMk_tAL4ODpJECe5xfHRbsZJG5AAL5ZgAC-XloSsMCUum9c3clNgQ")
                 create_del_msg("task", message.message_id, message.chat.id)
                 message = await bot.send_video(chat_id=user.get("tg_id"),
-                                    video="BAACAgIAAxkBAAICfGdMk_tAL4ODpJECe5xfHRbsZJG5AAL5ZgAC-XloSsMCUum9c3clNgQ")
+                                    video="BAACAgIAAxkBAAICfmdMlFH-CgelmudhTIcZFhicFb3lAAL_ZgAC-XloSoQqxyXln0KwNgQ")
                 create_del_msg("task", message.message_id, message.chat.id)
                 message = await bot.send_message(chat_id=user.get("tg_id"),
                                                text=wish_s.get("tasks").get(str(user_day)))
@@ -94,7 +94,7 @@ async def send_wish_day_msg(bot: Bot):
         #     # users_data = get_user_data()
         #     # print(users_data)
         now = datetime.datetime.now()
-        target_time = now.replace(hour=9, minute=0, second=0, microsecond=0)
+        target_time = now.replace(hour=11, minute=0, second=0, microsecond=0)
 
         try:
             await send_users_msg(bot)
