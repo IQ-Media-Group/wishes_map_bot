@@ -34,7 +34,19 @@ async def get_callback(call: CallbackQuery):
         update_day_counter(call.message.chat.id)
 
     if call.data == "moon_calendar":
-        await call.message.answer(text="""01.01-13.01, 30.01-11.02, 01.03-13.03, 30.03-12.04, 28.04-11.05, 28.05-10.06, 26.06-09.07, 25.07-08.08, 24.08-06.09, 22.09-05.10, 22.10-04.11, 21.11-04.12, 21.12-31.12""", reply_markup=instruction_2.as_markup())
+        await call.message.answer(text="""🎄01.01-13.01
+❄️30.01-11.02
+🌤01.03- 13.03
+☀️30.03-12.04
+🍀28.04-11.05
+🌿28.05-10.06
+🌸26.06-09.07
+🍄‍🟫25.07-08.08
+💐24.08-06.09
+🌻22.09-05.10
+🍁22.10-04.11
+🌧21.11-04.12
+🌲21.12-31.12""", reply_markup=instruction_2.as_markup())
 
     if call.data == "start_magic":
         user = get_user_data()[0]
