@@ -12,7 +12,6 @@ router = Router()
 
 @router.message(CommandStart())
 async def start(mes: Message, state: FSMContext):
-    await mes.answer(text=HELLO_MSG)
     await start_reg(mes, state)
     await mes.delete()
 
