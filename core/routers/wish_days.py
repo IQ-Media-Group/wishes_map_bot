@@ -197,6 +197,7 @@ async def send_wish_day_msg(bot: Bot):
 
 
 async def send_end_wish_day_msg(bot: Bot):
+    await asyncio.sleep(10)
     while True:
         # now = datetime.datetime.now()
         # if now.date() >= datetime.date(2024, 11, 27) and now.time() >= datetime.time(hour=9, minute=0, second=0):
@@ -206,7 +207,6 @@ async def send_end_wish_day_msg(bot: Bot):
         target_time = now.replace(hour=21, minute=0, second=0, microsecond=0)
 
         try:
-            print(now >= target_time, now, target_time)
             if now >= target_time:
                 await send_users_end_msg(bot)
         except Exception as e:
