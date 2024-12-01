@@ -21,9 +21,9 @@ async def show_form(mes: Message, state: FSMContext):
     user = get_user_by(mes.from_user.id)[0]
     update_user_phone(data.get('phone'), data.get('tg_id'))
     if user.get("join_date").date() <= datetime.date(2024, 12, 2):
-        await mes.answer_video(video="BAACAgIAAxkBAAICQ2dMj5NSDDcG9Tyz6bj7Ofu0FYsPAAKoZgAC-XloSgPtw2y8dmBeNgQ", caption=REG_MSG_2, reply_markup=instruction.as_markup())
+        await mes.answer_video(video="BAACAgIAAxkBAAICQ2dMj5NSDDcG9Tyz6bj7Ofu0FYsPAAKoZgAC-XloSgPtw2y8dmBeNgQ", caption=REG_MSG_2, reply_markup=instruction_2.as_markup())
     else:
-        await mes.answer_video(video="BAACAgIAAxkBAAICQ2dMj5NSDDcG9Tyz6bj7Ofu0FYsPAAKoZgAC-XloSgPtw2y8dmBeNgQ", caption=REG_MSG_2, reply_markup=instruction.as_markup())
+        await mes.answer_video(video="BAACAgIAAxkBAAICQ2dMj5NSDDcG9Tyz6bj7Ofu0FYsPAAKoZgAC-XloSgPtw2y8dmBeNgQ", caption=REG_MSG_2, reply_markup=instruction_2.as_markup())
     await state.clear()
 
 
