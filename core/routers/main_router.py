@@ -22,6 +22,6 @@ async def test(mes: Message):
     await mes.answer_video(video="BAACAgIAAxkBAAIJGWdMiZtvbP5qykVpRx56GJCgdl39AAK9XwACHuRpSjNl9sCbrrVwNgQ")
     ...
 
-# @router.message(F.video)
-# def test2(msg: Message):
-#     print(msg.video.file_id)
+@router.message(F.video)
+def test2(msg: Message):
+    print(msg.video.file_id)
