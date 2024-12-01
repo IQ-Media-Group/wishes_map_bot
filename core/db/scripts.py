@@ -215,7 +215,7 @@ def get_11_days_users():
 
 
 def check_user_payment(email: str):
-    payments = get_payment_from_db()
+    payments = get_payment_from_db(email)
     if payments:
         return True
     else:
