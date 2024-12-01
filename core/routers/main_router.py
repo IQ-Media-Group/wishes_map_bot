@@ -24,4 +24,5 @@ async def test(mes: Message):
 
 @router.message(F.video)
 def test2(msg: Message):
+    print("test2")
     print(msg.video.file_id)
