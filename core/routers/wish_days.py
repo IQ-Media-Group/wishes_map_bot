@@ -170,6 +170,8 @@ async def send_users_end_msg(bot: Bot):
     users = get_user_data()
     await del_user_msgs(bot, "question")
     for user in users:
+        logging.info("send_wish_day_msg запущена 4")
+        logging.info(user.get("day_counter") <= 9)
         if user.get("day_counter") <= 9:
             message = await bot.send_message(user.get("tg_id"), "Сегодняшний сектор карты уже готов?", reply_markup=y_or_n.as_markup())
             create_del_msg("question", message.message_id, message.chat.id)
@@ -210,8 +212,8 @@ async def send_end_wish_day_msg(bot: Bot):
         target_time = now.replace(hour=21, minute=0, second=0, microsecond=0)
 
         try:
-            if now >= target_time:
-                await send_users_end_msg(bot)
+            # if now >= target_time:
+            await send_users_end_msg(bot)
         except Exception as e:
             logging.error(f"Failed to send message to 334019728: {e}")
 
