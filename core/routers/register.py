@@ -9,7 +9,7 @@ from aiogram import F
 from core.states.registration import Form
 from core.validators.phone import validate_phone_number
 from core.validators.email import email_validator
-from core.db.scripts import create_user, get_user, check_payment, update_user_phone
+from core.db.scripts import create_user, get_user, check_payment, update_user_phone, get_user_by
 from core.keyboards.wish_kb import instruction, instruction_2
 from texts import REG_MSG, END_REG_MSG, END_REG_MSG_2, REG_MSG_2
 
@@ -18,7 +18,7 @@ router = Router()
 
 async def show_form(mes: Message, state: FSMContext):
     data = await state.get_data()
-    user = get_user(mes.from_user.id)
+    user = get_user_by(mes.from_user.id)
     update_user_phone(data.get('phone'), data.get('tg_id'))
     if user.get("join_date") <= datetime.date(2024, 12, 2):
         await mes.answer(text=END_REG_MSG, reply_markup=instruction.as_markup())
