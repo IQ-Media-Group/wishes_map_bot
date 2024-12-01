@@ -11,6 +11,8 @@ class Settings(BaseSettings):
     DB_PASSWORD: str
     DB_NAME: str
     TOKEN: str
+    GETCOURSE_TOKEN: str
+    GETCOURSE_URL: str
 
     @property
     def DATABASE_URL(self):
