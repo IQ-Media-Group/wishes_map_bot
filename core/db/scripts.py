@@ -71,24 +71,30 @@ def insert_payments(items: list):
 
 def get_payments():
     res = requests.get(f"{settings.GETCOURSE_URL}/pl/api/account/payments?key={settings.GETCOURSE_TOKEN}&status=accepted")
-    export_id = (res.json().get('info').get('export_id'))
-    count = 0
-    while True:
-        res = requests.get(f"{settings.GETCOURSE_URL}/pl/api/account/exports/{export_id}?key={settings.GETCOURSE_TOKEN}")
-        res = res.json()
+    print(res.json())
+    if res.json().get('error_message') == "Слишком много запросов":
+        return
+    try:
+        export_id = (res.json().get('info').get('export_id'))
+        count = 0
+        while True:
+            res = requests.get(f"{settings.GETCOURSE_URL}/pl/api/account/exports/{export_id}?key={settings.GETCOURSE_TOKEN}")
+            res = res.json()
 
-        if res.get('success'):
-            insert_payments(res.get("info").get('items'))
-            break
+            if res.get('success'):
+                insert_payments(res.get("info").get('items'))
+                break
 
-        if count == 11:
-            print(f"Не удалось получить платежи - {res.text}")
-            break
+            if count == 11:
+                print(f"Не удалось получить платежи - {res.text}")
+                break
 
-        count += 1
-        print(f"Попытка получения платежей - {count}")
+            count += 1
+            print(f"Попытка получения платежей - {count}")
 
-        time.sleep(5)
+            time.sleep(5)
+    except Exception as e:
+        print(e)
 
 
 def get_payment_from_db(email: str) -> list[tuple]:
@@ -217,7 +223,6 @@ def check_user_payment(email: str):
 
 
 def update_users_status():
-    get_payments()
     with engine.connect() as conn:
         stmt = select(tg_users).where(tg_users.c.is_started == False)
         result = conn.execute(stmt)

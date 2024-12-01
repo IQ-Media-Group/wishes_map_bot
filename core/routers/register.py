@@ -2,7 +2,7 @@ import datetime
 from threading import Thread
 
 from aiogram import Router
-from aiogram.types import Message
+from aiogram.types import Message, FSInputFile
 from aiogram.fsm.context import FSMContext
 from aiogram import F
 
@@ -21,7 +21,7 @@ async def show_form(mes: Message, state: FSMContext):
     user = get_user_by(mes.from_user.id)[0]
     update_user_phone(data.get('phone'), data.get('tg_id'))
     if user.get("join_date").date() <= datetime.date(2024, 12, 2):
-        await mes.answer(text=REG_MSG_2, reply_markup=instruction.as_markup())
+        await mes.answer_video(video="BAACAgIAAxkBAAIJGWdMiZtvbP5qykVpRx56GJCgdl39AAK9XwACHuRpSjNl9sCbrrVwNgQ", caption=REG_MSG_2, reply_markup=instruction.as_markup())
     else:
         await mes.answer(text=REG_MSG_2, reply_markup=instruction_2.as_markup())
     await state.clear()

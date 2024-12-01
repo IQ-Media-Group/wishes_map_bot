@@ -53,7 +53,7 @@ async def get_callback(call: CallbackQuery):
 
 
 async def send_users_msg(bot: Bot):
-    update_users_status()
+    # update_users_status()
     users = get_user_data()
     wish_s = get_wish_settings()
     await del_user_msgs(bot, "task")

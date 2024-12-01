@@ -28,10 +28,10 @@ async def start():
 
     register_messages(dp=dp)
 
-    asyncio.create_task(send_wish_day_msg(bot))
-    asyncio.create_task(send_end_wish_day_msg(bot))
-    asyncio.create_task(send_10_day(bot))
-    asyncio.create_task(send_11_day(bot))
+    # asyncio.create_task(send_wish_day_msg(bot))
+    # asyncio.create_task(send_end_wish_day_msg(bot))
+    # asyncio.create_task(send_10_day(bot))
+    # asyncio.create_task(send_11_day(bot))
 
     try:
         await dp.start_polling(bot)
