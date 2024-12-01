@@ -7,8 +7,10 @@ from aiogram.types import Message, CallbackQuery
 from aiogram.fsm.context import FSMContext
 from aiogram import F
 
-from core.db.scripts import get_user_data, get_user_by, get_wish_settings, update_day_counter, update_started_status
-from core.keyboards.wish_kb import y_or_n, instruction_2
+from core.db.models import del_msgs
+from core.db.scripts import get_user_data, get_user_by, get_wish_settings, update_day_counter, update_started_status, \
+    create_del_msg, del_user_msgs
+from core.keyboards.wish_kb import y_or_n, instruction_2, instruction_3
 
 router = Router()
 
@@ -42,22 +44,35 @@ async def get_callback(call: CallbackQuery):
 
     if call.data == "start_magic":
         update_started_status(call.message.chat.id)
+        user = get_user_data()[0]
+        if user.get("day_counter") <= 9:
+            user_day = user.get("day_counter", 1)
+            await call.message.edit_reply_markup(reply_markup=instruction_3.as_markup())
+            message = await call.message.answer(text=wish_s.get("tasks").get(str(user_day)))
+            try:
+                create_del_msg("task", message.message_id, message.chat.id)
+            except:
+                ...
 
 
 async def send_users_msg(bot: Bot):
     users = get_user_data()
     wish_s = get_wish_settings()
+    await del_user_msgs(bot, "task")
     for user in users:
         if user.get("day_counter") <= 9:
             user_day = user.get("day_counter", 1)
-            await bot.send_message(user.get("tg_id"), text=wish_s.get("tasks").get(str(user_day)))
+            message = await bot.send_message(user.get("tg_id"), text=wish_s.get("tasks").get(str(user_day)))
+            create_del_msg("task", message.message_id, message.chat.id)
 
 
 async def send_users_end_msg(bot: Bot):
     users = get_user_data()
+    await del_user_msgs(bot, "question")
     for user in users:
         if user.get("day_counter") <= 9:
-            await bot.send_message(user.get("tg_id"), "Сегодняшний сектор карты уже готов?", reply_markup=y_or_n.as_markup())
+            message = await bot.send_message(user.get("tg_id"), "Сегодняшний сектор карты уже готов?", reply_markup=y_or_n.as_markup())
+            create_del_msg("question", message.message_id, message.chat.id)
 
 
 async def send_wish_day_msg(bot: Bot):

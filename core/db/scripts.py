@@ -1,12 +1,13 @@
+import datetime
 import time
 
 import requests, json
+from aiogram import Bot
 
 from core.db.database import engine
-from core.db.models import metadata_obj
+from core.db.models import metadata_obj, del_msgs
 from sqlalchemy.dialects.postgresql import insert
-from sqlalchemy.sql import select, update
-from sqlalchemy.engine import Row
+from sqlalchemy.sql import select, update, delete
 
 from core.db.models import tg_users, payments
 from core.db.config import settings
@@ -20,13 +21,17 @@ create_tables()
 
 
 def create_user(tg_id: int, fio: str, email: str) -> None:
+    is_started = False
+    if datetime.datetime.now().date() < datetime.date(2024, 12, 2):
+        is_started = True
     with engine.connect() as conn:
         stmt = insert(tg_users).values(
             [
                 {
                     "tg_id": tg_id,
                     "FIO": fio,
-                    "email": email
+                    "email": email,
+                    "is_started": is_started
                 }
             ]
         ).on_conflict_do_nothing()
@@ -155,3 +160,35 @@ def update_started_status(tg_id: int):
         stmt = update(tg_users).where(tg_users.c.tg_id == tg_id).values(is_started=True)
         conn.execute(stmt)
         conn.commit()
+
+
+def create_del_msg(msg_type: str, msg_id: int, chat_id: int):
+    with engine.connect() as conn:
+        stmt = insert(del_msgs).values(
+            [
+                {
+                    "message_id": msg_id,
+                    "chat_id": chat_id,
+                    "type": msg_type
+                }
+            ]
+        )
+        conn.execute(stmt)
+        conn.commit()
+
+
+async def del_user_msgs(bot: Bot, msg_type: str):
+    with engine.connect() as conn:
+        stmt = select(del_msgs).where(del_msgs.c.type == msg_type)
+        result = conn.execute(stmt)
+        msgs = [row._asdict() for row in result]
+
+    for msg in msgs:
+        try:
+            with engine.connect() as conn:
+                stmt = delete(del_msgs).where(del_msgs.c.id == msg.get("id"))
+                conn.execute(stmt)
+                conn.commit()
+            await bot.delete_message(chat_id=msg.get("chat_id"), message_id=msg.get("message_id"))
+        except Exception as e:
+            print(e)
