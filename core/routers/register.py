@@ -18,7 +18,7 @@ router = Router()
 
 async def show_form(mes: Message, state: FSMContext):
     data = await state.get_data()
-    user = get_user_by(mes.from_user.id)
+    user = get_user_by(mes.from_user.id)[0]
     update_user_phone(data.get('phone'), data.get('tg_id'))
     if user.get("join_date") <= datetime.date(2024, 12, 2):
         await mes.answer(text=END_REG_MSG, reply_markup=instruction.as_markup())
