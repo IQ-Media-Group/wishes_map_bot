@@ -89,7 +89,6 @@ async def send_users_msg(bot: Bot):
                 create_del_msg("task", message.message_id, message.chat.id)
             elif user.get("day_counter") == 2:
                 user_day = user.get("day_counter", 1)
-                # message = await bot.send_message(user.get("tg_id"), text=wish_s.get("tasks").get(str(user_day)))
                 message = await bot.send_video(chat_id=user.get("tg_id"),
                                                video="BAACAgIAAxkBAAID12dMqXXfObbcJXWHO2BoKxdgclOCAAKVaAAC-XloShRsAh4W8ZJSNgQ")
                 create_del_msg("task", message.message_id, message.chat.id)
