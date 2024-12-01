@@ -117,7 +117,8 @@ async def send_end_wish_day_msg(bot: Bot):
         target_time = now.replace(hour=21, minute=0, second=0, microsecond=0)
 
         try:
-            await send_users_end_msg(bot)
+            if now >= target_time:
+                await send_users_end_msg(bot)
         except Exception as e:
             logging.error(f"Failed to send message to 334019728: {e}")
 
