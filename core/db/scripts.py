@@ -6,7 +6,7 @@ import requests, json
 from aiogram import Bot
 
 from core.db.database import engine
-from core.db.models import metadata_obj, del_msgs
+from core.db.models import metadata_obj, del_msgs, send_msgs
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.sql import select, update, delete
 
@@ -244,3 +244,57 @@ def update_users_status():
                 conn.commit()
 
 
+def get_usr_by_tg(tg_id: int) ->dict | None:
+    with engine.connect() as conn:
+        stmt = select(tg_users).where(tg_users.c.tg_id == tg_id)
+        result = conn.execute(stmt)
+        user = [row._asdict() for row in result]
+
+    if user:
+        return user[0]
+    else:
+        return None
+
+
+def get_send_msgs():
+    with engine.connect() as conn:
+        now = datetime.datetime.now()
+        stmt = (
+            select(send_msgs)
+            .where(send_msgs.c.is_sent == False)
+            .where(send_msgs.c.when < now)
+        )
+        result = conn.execute(stmt)
+        return [row._asdict() for row in result]
+
+
+def create_msg_to_send(tg_id: int, when_s: datetime.datetime, text: str, msg_type: str):
+    with engine.connect() as conn:
+        stmt = insert(send_msgs).values(
+            [
+                {
+                    "chat_id": tg_id,
+                    "when": when_s,
+                    "text": text,
+                    "type": msg_type
+                }
+            ]
+        )
+        conn.execute(stmt)
+        conn.commit()
+
+
+def set_msgs_sent(msg_id: int):
+    with engine.connect() as conn:
+        stmt = update(send_msgs).where(send_msgs.c.id == msg_id).values(
+            is_sent=True
+        )
+        conn.execute(stmt)
+        conn.commit()
+
+
+def set_user_day(day: int, tg_id: int):
+    with engine.connect() as conn:
+        stmt = update(tg_users).where(tg_users.c.tg_id == tg_id).values(day_counter=day)
+        conn.execute(stmt)
+        conn.commit()
