@@ -20,7 +20,6 @@ async def get_callback(call: CallbackQuery):
     user_data = get_user_by(call.message.chat.id)[0]
     wish_s = get_wish_settings()
     if data == "instruction":
-        await call.message.edit_reply_markup(reply_markup=None)
         await call.message.answer(INSTRUCTION)
 
     if call.data == "yes":
