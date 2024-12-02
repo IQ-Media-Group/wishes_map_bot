@@ -48,7 +48,7 @@ async def get_callback(call: CallbackQuery):
 🌲21.12-31.12""", reply_markup=instruction_2.as_markup())
 
     if call.data == "start_magic":
-        user = get_user_data()[0]
+        user = get_user_by(call.message.chat.id)[0]
         if check_user_payment(user.get("email")):
             update_started_status(call.message.chat.id)
             if user.get("day_counter") <= 9:
