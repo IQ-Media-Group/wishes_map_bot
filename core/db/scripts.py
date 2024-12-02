@@ -1,4 +1,5 @@
 import datetime
+import logging
 import time
 
 import requests, json
@@ -216,6 +217,7 @@ def get_11_days_users():
 
 def check_user_payment(email: str):
     payments = get_payment_from_db(email)
+    logging.info(payments)
     if payments:
         return True
     else:
