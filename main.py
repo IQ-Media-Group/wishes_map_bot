@@ -6,7 +6,7 @@ from aiogram import Bot, Dispatcher
 from core.db.scripts import get_user
 from core.routers.main_router import router as main_router
 from core.routers.register import router as register_router
-from core.routers.wish_days import router as wish_router, send_wish_day_msg, send_end_wish_day_msg, send_10_day, \
+from core.routers.wish_days import router as wish_router, send_10_day, \
     send_11_day, send_daily_msgs
 from core.db.config import settings
 

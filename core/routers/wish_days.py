@@ -65,6 +65,13 @@ async def send_user_day_2(bot: Bot, text: str, user: dict):
     )
 
 
+async def send_user_day_3(bot: Bot, text: str, user: dict):
+    if "Благодарим за то, что прошли этот Марафон до конца." in text:
+        await bot.send_message(user['tg_id'], text, reply_markup=final_kb.as_markup())
+    else:
+        await bot.send_message(user['tg_id'], text)
+
+
 @router.callback_query()
 async def get_callback(call: CallbackQuery):
     data = call.data
@@ -77,21 +84,39 @@ async def get_callback(call: CallbackQuery):
         await call.message.answer(text=wish_s.get("positive").get(str(user_data.get("day_counter"))))
         await call.message.edit_reply_markup(reply_markup=None)
         update_day_counter(call.message.chat.id)
-        create_msg_to_send(call.message.chat.id,
-                           datetime.datetime.now() + datetime.timedelta(seconds=10),
-                           text=wish_s.get('tasks').get(str(user_data['day_counter'] + 1)),
-                           msg_type="task"
-                           )
+        if user_data.get("day_counter") < 9:
+            create_msg_to_send(call.message.chat.id,
+                               datetime.datetime.now() + datetime.timedelta(seconds=10),
+                               text=wish_s.get('tasks').get(str(user_data['day_counter'] + 1)),
+                               msg_type="task"
+                               )
+        if user_data.get("day_counter") == 9:
+            create_msg_to_send(call.message.chat.id,
+                               datetime.datetime.now() + datetime.timedelta(seconds=20),
+                               text="""Жду от вас фото вашей карты желаний!
+
+То что вы пришлете, не увидит никто кроме вас. Но именно сейчас, настало время вашей ответственности: какую фотографию карты желаний вы вышлите, то и активируется.""",
+                               msg_type="last"
+                               )
 
     if call.data == "no":
         await call.message.answer(text=wish_s.get("negative").get(str(user_data.get("day_counter"))))
         await call.message.edit_reply_markup(reply_markup=None)
         update_day_counter(call.message.chat.id)
-        create_msg_to_send(call.message.chat.id,
-                           datetime.datetime.now() + datetime.timedelta(seconds=10),
-                           text=wish_s.get('tasks').get(str(user_data['day_counter'] + 1)),
-                           msg_type="task"
-                           )
+        if user_data.get("day_counter") <= 9:
+            create_msg_to_send(call.message.chat.id,
+                               datetime.datetime.now() + datetime.timedelta(seconds=10),
+                               text=wish_s.get('tasks').get(str(user_data['day_counter'] + 1)),
+                               msg_type="task"
+                               )
+            if user_data.get("day_counter") == 9:
+                create_msg_to_send(call.message.chat.id,
+                                   datetime.datetime.now() + datetime.timedelta(seconds=20),
+                                   text="""Жду от вас фото вашей карты желаний!
+
+        То что вы пришлете, не увидит никто кроме вас. Но именно сейчас, настало время вашей ответственности: какую фотографию карты желаний вы вышлите, то и активируется.""",
+                                   msg_type="last"
+                                   )
 
     if call.data == "moon_calendar":
         await call.message.answer(text="""🎄01.01-13.01
@@ -145,10 +170,17 @@ async def send_daily_msgs(bot: Bot):
                     set_msgs_sent(msg['id'])
                 except Exception as e:
                     logging.info(e)
-            else:
+            elif msg['type'] == 'task':
                 user = get_usr_by_tg(msg['chat_id'])
                 try:
                     await send_user_day_2(bot, msg['text'], user)
+                    set_msgs_sent(msg['id'])
+                except Exception as e:
+                    logging.info(e)
+            else:
+                user = get_usr_by_tg(msg['chat_id'])
+                try:
+                    await send_user_day_3(bot, msg['text'], user)
                     set_msgs_sent(msg['id'])
                 except Exception as e:
                     logging.info(e)
@@ -252,70 +284,24 @@ async def send_users_msg(bot: Bot):
                 create_del_msg("task", message.message_id, message.chat.id)
 
 
-async def send_users_end_msg(bot: Bot):
-    users = get_user_data()
-    await del_user_msgs(bot, "question")
-    for user in users:
-        logging.info("send_wish_day_msg запущена 4")
-        logging.info(user.get("day_counter") <= 9)
-        if user.get("day_counter") <= 9:
-            message = await bot.send_message(user.get("tg_id"), "Сегодняшний сектор карты уже готов?",
-                                             reply_markup=y_or_n.as_markup())
-            create_del_msg("question", message.message_id, message.chat.id)
-
-
-async def send_wish_day_msg(bot: Bot):
-    while True:
-        logging.info("send_wish_day_msg запущена")
-        # now = datetime.datetime.now()
-        # if now.date() >= datetime.date(2024, 11, 27) and now.time() >= datetime.time(hour=9, minute=0, second=0):
-        #     # users_data = get_user_data()
-        #     # print(users_data)
-        now = datetime.datetime.now()
-        target_time = now.replace(hour=11, minute=0, second=0, microsecond=0)
-
-        try:
-            if now >= target_time:
-                await send_users_msg(bot)
-        except Exception as e:
-            logging.error(f"Failed to send message to 334019728: {e}")
-
-        if now >= target_time:
-            target_time += datetime.timedelta(days=1)
-
-        await asyncio.sleep((target_time - now).total_seconds())
-
-
-async def send_end_wish_day_msg(bot: Bot):
-    logging.info("send_end_wish_day_msg запущена")
-    await asyncio.sleep(10)
-    logging.info("send_end_wish_day_msg запущена 2")
-    while True:
-        # now = datetime.datetime.now()
-        # if now.date() >= datetime.date(2024, 11, 27) and now.time() >= datetime.time(hour=9, minute=0, second=0):
-        #     # users_data = get_user_data()
-        #     # print(users_data)
-        now = datetime.datetime.now()
-        target_time = now.replace(hour=21, minute=0, second=0, microsecond=0)
-
-        try:
-            # if now >= target_time:
-            await send_users_end_msg(bot)
-        except Exception as e:
-            logging.error(f"Failed to send message to 334019728: {e}")
-
-        if now >= target_time:
-            target_time += datetime.timedelta(days=1)
-
-        await asyncio.sleep((target_time - now).total_seconds())
-
-
 @router.message(F.document | F.photo)
 async def get_user_map(msg: Message):
-    user = get_user_by(msg.chat.id)[0]
-    if user.get("day_counter") == 10 and user.get("payment_status"):
+    user = get_usr_by_tg(msg.chat.id)
+    if user.get("day_counter") == 10:
         await msg.answer("🎉")
         update_day_counter(user.get("tg_id"))
+        create_msg_to_send(
+            user['tg_id'],
+            datetime.datetime.now() + datetime.timedelta(seconds=15),
+            "Настал тот самый день! Сегодня вы получите инструкции, как сделать так, чтобы ваша карта заработала на полную мощность!",
+            "last"
+        )
+        create_msg_to_send(
+            user['tg_id'],
+            datetime.datetime.now() + datetime.timedelta(seconds=25),
+            """Благодарим за то, что прошли этот Марафон до конца. Пусть эта карта будет вашим компасом для достижения целей. Для этого вам может понадобиться обучение. Узнать об образовательных продуктах Norland academy""",
+            "last"
+        )
 
 
 async def send_10_day_msg(bot: Bot):
