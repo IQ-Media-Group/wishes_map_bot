@@ -136,6 +136,7 @@ async def get_callback(call: CallbackQuery):
         user = get_usr_by_tg(call.message.chat.id)
         if user:
             set_user_day(1, user["tg_id"])
+            user['day_counter'] = 1
             await send_user_day(call.message, user['day_counter'], user)
 
 
