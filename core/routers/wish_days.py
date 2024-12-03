@@ -69,11 +69,13 @@ async def send_user_day_3(bot: Bot, text: str, user: dict):
     wish_s = get_wish_settings()
     if "Благодарим за то, что прошли этот Марафон до конца." in text:
         await bot.send_message(user['tg_id'], text, reply_markup=final_kb.as_markup())
-    else:
+    elif "Настал тот самый день!" in text:
         videos = wish_s.get("video").get("10")
         await bot.send_message(user['tg_id'], text)
         for video in videos:
             await bot.send_video(user['tg_id'], video=video)
+    else:
+        await bot.send_message(user['tg_id'], text)
 
 
 @router.callback_query()
@@ -171,104 +173,6 @@ async def send_daily_msgs(bot: Bot):
                     set_msgs_sent(msg['id'])
                 except Exception as e:
                     logging.info(e)
-
-
-async def send_users_msg(bot: Bot):
-    # update_users_status()
-    users = get_user_data()
-    wish_s = get_wish_settings()
-    await del_user_msgs(bot, "task")
-    for user in users:
-        if user.get("day_counter") <= 9:
-            if user.get("day_counter") == 1:
-                user_day = user.get("day_counter", 1)
-                # message = await bot.send_message(user.get("tg_id"), text=wish_s.get("tasks").get(str(user_day)))
-                message = await bot.send_video(chat_id=user.get("tg_id"),
-                                               video="BAACAgIAAxkBAAICfGdMk_tAL4ODpJECe5xfHRbsZJG5AAL5ZgAC-XloSsMCUum9c3clNgQ")
-                create_del_msg("task", message.message_id, message.chat.id)
-                message = await bot.send_video(chat_id=user.get("tg_id"),
-                                               video="BAACAgIAAxkBAAICfmdMlFH-CgelmudhTIcZFhicFb3lAAL_ZgAC-XloSoQqxyXln0KwNgQ")
-                create_del_msg("task", message.message_id, message.chat.id)
-                message = await bot.send_message(chat_id=user.get("tg_id"),
-                                                 text=wish_s.get("tasks").get(str(user_day)))
-                create_del_msg("task", message.message_id, message.chat.id)
-            elif user.get("day_counter") == 2:
-                user_day = user.get("day_counter", 1)
-                message = await bot.send_video(chat_id=user.get("tg_id"),
-                                               video="BAACAgIAAxkBAAID12dMqXXfObbcJXWHO2BoKxdgclOCAAKVaAAC-XloShRsAh4W8ZJSNgQ")
-                create_del_msg("task", message.message_id, message.chat.id)
-                message = await bot.send_message(chat_id=user.get("tg_id"),
-                                                 text=wish_s.get("tasks").get(str(user_day)))
-                create_del_msg("task", message.message_id, message.chat.id)
-            elif user.get("day_counter") == 3:
-                user_day = user.get("day_counter", 1)
-                message = await bot.send_video(chat_id=user.get("tg_id"),
-                                               video="BAACAgIAAxkBAAID2GdMqejmWtXPgIFHsyJlKlNGXKt4AAKZaAAC-XloSmEvZg37lHEpNgQ")
-                create_del_msg("task", message.message_id, message.chat.id)
-                message = await bot.send_message(chat_id=user.get("tg_id"),
-                                                 text=wish_s.get("tasks").get(str(user_day)))
-                create_del_msg("task", message.message_id, message.chat.id)
-            elif user.get("day_counter") == 4:
-                user_day = user.get("day_counter", 1)
-                message = await bot.send_video(chat_id=user.get("tg_id"),
-                                               video="BAACAgIAAxkBAAID2mdMq2Zk3ZfLwB_NVcZ_v2UB_wABuQACtmgAAvl5aEqldFcTAAGi_Rk2BA")
-                create_del_msg("task", message.message_id, message.chat.id)
-                message = await bot.send_video(chat_id=user.get("tg_id"),
-                                               video="BAACAgIAAxkBAAID2WdMqwkdZBEwLinUCvfj5UyKQ8TkAAKmaAAC-XloSqf4LTL66c2YNgQ")
-                create_del_msg("task", message.message_id, message.chat.id)
-                message = await bot.send_message(chat_id=user.get("tg_id"),
-                                                 text=wish_s.get("tasks").get(str(user_day)))
-                create_del_msg("task", message.message_id, message.chat.id)
-            elif user.get("day_counter") == 5:
-                user_day = user.get("day_counter", 1)
-                message = await bot.send_video(chat_id=user.get("tg_id"),
-                                               video="BAACAgIAAxkBAAID22dMrG5tFcIXQiJ6jBWjvx9n-CdNAALEaAAC-XloShVkFogJ-W0MNgQ")
-                create_del_msg("task", message.message_id, message.chat.id)
-                message = await bot.send_message(chat_id=user.get("tg_id"),
-                                                 text=wish_s.get("tasks").get(str(user_day)))
-                create_del_msg("task", message.message_id, message.chat.id)
-            elif user.get("day_counter") == 6:
-                user_day = user.get("day_counter", 1)
-                message = await bot.send_video(chat_id=user.get("tg_id"),
-                                               video="BAACAgIAAxkBAAID3GdMrKQpqczdCegZl7HbeAbMHbEaAALHaAAC-XloSltxiHkhuDkTNgQ")
-                create_del_msg("task", message.message_id, message.chat.id)
-                message = await bot.send_message(chat_id=user.get("tg_id"),
-                                                 text=wish_s.get("tasks").get(str(user_day)))
-                create_del_msg("task", message.message_id, message.chat.id)
-            elif user.get("day_counter") == 7:
-                user_day = user.get("day_counter", 1)
-                message = await bot.send_video(chat_id=user.get("tg_id"),
-                                               video="BAACAgIAAxkBAAID3WdMrbS0Q3f-Pt2cHVvD0KtvHRa7AALUaAAC-XloSiF3b_PjZDntNgQ")
-                create_del_msg("task", message.message_id, message.chat.id)
-                message = await bot.send_video(chat_id=user.get("tg_id"),
-                                               video="BAACAgIAAxkBAAID3mdMrfJMVYSckSH6WKAoStX9z5v1AALdaAAC-XloSmPco-oNR0ybNgQ")
-                create_del_msg("task", message.message_id, message.chat.id)
-                message = await bot.send_message(chat_id=user.get("tg_id"),
-                                                 text=wish_s.get("tasks").get(str(user_day)))
-                create_del_msg("task", message.message_id, message.chat.id)
-            elif user.get("day_counter") == 8:
-                user_day = user.get("day_counter", 1)
-                message = await bot.send_video(chat_id=user.get("tg_id"),
-                                               video="BAACAgIAAxkBAAID32dMru3KXuipOex5pG6iE9Ioi5TuAALuaAAC-XloSrwJCpOnHKIFNgQ")
-                create_del_msg("task", message.message_id, message.chat.id)
-                message = await bot.send_message(chat_id=user.get("tg_id"),
-                                                 text=wish_s.get("tasks").get(str(user_day)))
-                create_del_msg("task", message.message_id, message.chat.id)
-            elif user.get("day_counter") == 9:
-                user_day = user.get("day_counter", 1)
-                message = await bot.send_video(chat_id=user.get("tg_id"),
-                                               video="BAACAgIAAxkBAAID8WdMswRDuc5MuR_7WupWyrjvdBTUAAJFaQAC-XloSj3jaJL2ieppNgQ")
-                create_del_msg("task", message.message_id, message.chat.id)
-                message = await bot.send_video(chat_id=user.get("tg_id"),
-                                               video="BAACAgIAAxkBAAID8mdMs0wByyX2UnqYFCxNNT_fN8KOAAJIaQAC-XloSs_JaxrCxL7YNgQ")
-                create_del_msg("task", message.message_id, message.chat.id)
-                message = await bot.send_message(chat_id=user.get("tg_id"),
-                                                 text=wish_s.get("tasks").get(str(user_day)))
-                create_del_msg("task", message.message_id, message.chat.id)
-            else:
-                user_day = user.get("day_counter", 1)
-                message = await bot.send_message(user.get("tg_id"), text=wish_s.get("tasks").get(str(user_day)))
-                create_del_msg("task", message.message_id, message.chat.id)
 
 
 @router.message(F.document | F.photo)
