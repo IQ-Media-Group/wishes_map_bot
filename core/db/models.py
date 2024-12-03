@@ -38,3 +38,14 @@ del_msgs = Table(
     Column("chat_id", BigInteger),
     Column("type", String, default="task"),
 )
+
+send_msgs = Table(
+    "send_msgs",
+    metadata_obj,
+    Column("id", Integer, primary_key=True),
+    Column("chat_id", BigInteger),
+    Column("when", DateTime, default=datetime.datetime.now()),
+    Column("is_sent", Boolean, default=False),
+    Column("text", String),
+    Column("type", String, default="question")
+)

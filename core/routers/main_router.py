@@ -3,9 +3,7 @@ from aiogram.filters import CommandStart, Command
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, FSInputFile
 
-from core.keyboards.wish_kb import instruction_2
 from core.routers.register import start_reg
-from texts import HELLO_MSG, END_REG_MSG_2
 
 router = Router()
 
