@@ -65,10 +65,14 @@ async def send_user_day_2(bot: Bot, text: str, user: dict):
 
 
 async def send_user_day_3(bot: Bot, text: str, user: dict):
+    wish_s = get_wish_settings()
     if "Благодарим за то, что прошли этот Марафон до конца." in text:
         await bot.send_message(user['tg_id'], text, reply_markup=final_kb.as_markup())
     else:
+        videos = wish_s.get("video").get("10")
         await bot.send_message(user['tg_id'], text)
+        for video in videos:
+            await bot.send_video(user['tg_id'], video=video)
 
 
 @router.callback_query()
