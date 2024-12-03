@@ -1,3 +1,5 @@
+import logging
+
 from aiogram import Router, F
 from aiogram.filters import CommandStart, Command
 from aiogram.fsm.context import FSMContext
@@ -24,4 +26,4 @@ async def start(mes: Message, state: FSMContext):
 @router.message(F.video)
 def test2(msg: Message):
     print("test2")
-    print(msg.video.file_id)
+    logging.info(f"{msg.video.file_id} | {msg.video.file_name}")
