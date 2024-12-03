@@ -6,10 +6,9 @@ from aiogram import Router, Bot
 from aiogram.types import Message, CallbackQuery
 from aiogram import F
 
-from core.db.scripts import get_user_data, get_user_by, get_wish_settings, update_day_counter, update_started_status, \
-    create_del_msg, del_user_msgs, get_10_days_users, get_11_days_users, check_user_payment, update_users_status, \
-    get_usr_by_tg, set_user_day, create_msg_to_send, get_send_msgs, set_msgs_sent
-from core.keyboards.wish_kb import y_or_n, instruction_2, instruction_3, final_kb
+from core.db.scripts import get_user_data, get_user_by, get_wish_settings, update_day_counter, create_del_msg, \
+    del_user_msgs, get_usr_by_tg, set_user_day, create_msg_to_send, get_send_msgs, set_msgs_sent
+from core.keyboards.wish_kb import y_or_n, instruction_2, final_kb
 from texts import INSTRUCTION
 
 router = Router()
@@ -138,24 +137,6 @@ async def get_callback(call: CallbackQuery):
         if user:
             set_user_day(1, user["tg_id"])
             await send_user_day(call.message, user['day_counter'], user)
-
-        # user = get_user_data()[0]
-        # if check_user_payment(user.get("email")):
-        #     update_started_status(call.message.chat.id)
-        #     if user.get("day_counter") <= 9:
-        #         user_day = user.get("day_counter", 1)
-        #         await call.message.edit_reply_markup(reply_markup=instruction_3.as_markup())
-        #         message = await call.message.answer_video(
-        #                                        video="BAACAgIAAxkBAAICfGdMk_tAL4ODpJECe5xfHRbsZJG5AAL5ZgAC-XloSsMCUum9c3clNgQ")
-        #         create_del_msg("task", message.message_id, message.chat.id)
-        #         message = await call.message.answer_video(
-        #                                        video="BAACAgIAAxkBAAICfmdMlFH-CgelmudhTIcZFhicFb3lAAL_ZgAC-XloSoQqxyXln0KwNgQ")
-        #         create_del_msg("task", message.message_id, message.chat.id)
-        #         message = await call.message.answer(
-        #                                          text=wish_s.get("tasks").get(str(user_day)))
-        #         create_del_msg("task", message.message_id, message.chat.id)
-        # else:
-        #     await call.message.answer(text="Не удается найти оплату")
 
 
 async def send_daily_msgs(bot: Bot):
@@ -302,60 +283,3 @@ async def get_user_map(msg: Message):
             """Благодарим за то, что прошли этот Марафон до конца. Пусть эта карта будет вашим компасом для достижения целей. Для этого вам может понадобиться обучение. Узнать об образовательных продуктах Norland academy""",
             "last"
         )
-
-
-async def send_10_day_msg(bot: Bot):
-    users = get_10_days_users()
-    for user in users:
-        await bot.send_message(chat_id=user.get("tg_id"), text="""Жду от вас фото вашей карты желаний!
-
-То что вы пришлете, не увидит никто кроме вас. Но именно сейчас, настало время вашей ответственности: какую фотографию карты желаний вы вышлите, то и активируется.""")
-
-
-async def send_10_day(bot: Bot):
-    while True:
-        now = datetime.datetime.now()
-        target_time = now.replace(hour=21, minute=30, second=0, microsecond=0)
-
-        try:
-            await send_10_day_msg(bot)
-        except Exception as e:
-            logging.error(f"Failed to send message to 334019728: {e}")
-
-        if now >= target_time:
-            target_time += datetime.timedelta(days=1)
-
-        await asyncio.sleep((target_time - now).total_seconds())
-
-
-async def send_11_day_msg(bot: Bot):
-    users = get_11_days_users()
-    for user in users:
-        if user.get("day_counter") == 11 and user.get("payment_status"):
-            await bot.send_message(chat_id=user.get("tg_id"),
-                                   text="""Настал тот самый день! Сегодня вы получите инструкции, как сделать так, чтобы ваша карта заработала на полную мощность!""")
-            update_day_counter(user.get("tg_id"))
-            await bot.send_message(chat_id=user.get("tg_id"),
-                                   text="""Благодарим за то, что прошли этот Марафон до конца. Пусть эта карта будет вашим компасом для достижения целей. Для этого вам может понадобиться обучение. Узнать об образовательных продуктах Norland academy""",
-                                   reply_markup=final_kb.as_markup())
-
-
-async def send_11_day(bot: Bot):
-    while True:
-        now = datetime.datetime.now()
-        target_time = now.replace(hour=9, minute=0, second=0, microsecond=0)
-
-        try:
-            await send_11_day_msg(bot)
-        except Exception as e:
-            logging.error(f"Failed to send message to 334019728: {e}")
-
-        if now >= target_time:
-            target_time += datetime.timedelta(days=1)
-
-        await asyncio.sleep((target_time - now).total_seconds())
-
-
-async def send_db_msgs(bot: Bot):
-    while True:
-        await asyncio.sleep(2)

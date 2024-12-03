@@ -1,4 +1,4 @@
-from aiogram.utils.keyboard import ReplyKeyboardBuilder, InlineKeyboardBuilder, InlineKeyboardButton
+from aiogram.utils.keyboard import InlineKeyboardBuilder, InlineKeyboardButton
 
 instruction = InlineKeyboardBuilder()
 instruction.add(InlineKeyboardButton(text="Инструкция", callback_data="instruction"))
