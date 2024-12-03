@@ -269,19 +269,20 @@ def get_send_msgs():
 
 
 def create_msg_to_send(tg_id: int, when_s: datetime.datetime, text: str, msg_type: str):
-    with engine.connect() as conn:
-        stmt = insert(send_msgs).values(
-            [
-                {
-                    "chat_id": tg_id,
-                    "when": when_s,
-                    "text": text,
-                    "type": msg_type
-                }
-            ]
-        )
-        conn.execute(stmt)
-        conn.commit()
+    if text not in ["", None]:
+        with engine.connect() as conn:
+            stmt = insert(send_msgs).values(
+                [
+                    {
+                        "chat_id": tg_id,
+                        "when": when_s,
+                        "text": text,
+                        "type": msg_type
+                    }
+                ]
+            )
+            conn.execute(stmt)
+            conn.commit()
 
 
 def set_msgs_sent(msg_id: int):

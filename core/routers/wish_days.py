@@ -39,29 +39,30 @@ async def send_user_day(msg: Message, day: int, user: dict):
 
 
 async def send_user_day_2(bot: Bot, text: str, user: dict):
-    wish_s = get_wish_settings()
-    videos = wish_s['video'].get(str(user['day_counter']))
+    if user['day_counter'] < 9:
+        wish_s = get_wish_settings()
+        videos = wish_s['video'].get(str(user['day_counter']))
 
-    if videos:
-        if isinstance(videos, str):
-            try:
-                await bot.send_video(chat_id=user['tg_id'], video=videos)
-            except Exception as e:
-                logging.info(e)
-        elif isinstance(videos, list):
-            for video in videos:
+        if videos:
+            if isinstance(videos, str):
                 try:
-                    await bot.send_video(chat_id=user['tg_id'], video=video)
+                    await bot.send_video(chat_id=user['tg_id'], video=videos)
                 except Exception as e:
                     logging.info(e)
+            elif isinstance(videos, list):
+                for video in videos:
+                    try:
+                        await bot.send_video(chat_id=user['tg_id'], video=video)
+                    except Exception as e:
+                        logging.info(e)
 
-    await bot.send_message(chat_id=user['tg_id'], text=text)
-    create_msg_to_send(
-        user['tg_id'],
-        datetime.datetime.now() + datetime.timedelta(seconds=15),
-        "Сегодняшний сектор карты уже готов?",
-        msg_type="question"
-    )
+        await bot.send_message(chat_id=user['tg_id'], text=text)
+        create_msg_to_send(
+            user['tg_id'],
+            datetime.datetime.now() + datetime.timedelta(seconds=15),
+            "Сегодняшний сектор карты уже готов?",
+            msg_type="question"
+        )
 
 
 async def send_user_day_3(bot: Bot, text: str, user: dict):
