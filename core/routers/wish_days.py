@@ -39,7 +39,7 @@ async def send_user_day(msg: Message, day: int, user: dict):
 
 
 async def send_user_day_2(bot: Bot, text: str, user: dict):
-    if user['day_counter'] < 9:
+    if user['day_counter'] <= 9:
         wish_s = get_wish_settings()
         videos = wish_s['video'].get(str(user['day_counter']))
 
