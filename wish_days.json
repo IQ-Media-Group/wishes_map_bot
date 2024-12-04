@@ -19,7 +19,7 @@
     "6": "Невероятно\\! *Сектор знаний тоже уже заполнен* \uD83C\uDFAF\nЧем себя поощрить? Предлагаю вспомнить о том, как было здорово учиться в Norland academy\\. На какой программе вы обучались? Жду ответа\\. Мне очень интересно\uD83D\uDC69\uD83C\uDFFB\u200D\uD83C\uDF93",
     "7": "И *сегодняшний сектор заполнен\\!* ⭐\uFE0F\nНевероятно, __осталось совсем чуть чуть и карта будет готова__\\. Чем себя порадовать? Можно провести остаток дня со своими домочадцами без телефона\\. Узнайте у них, что самого запоминающегося было сегодня? А что самого радостного? ✨",
     "8": "*Предпоследний сектор готов\\!* \uD83C\uDFC5\nПредлагаю в качестве благодарности к себе за выполненную работу прямо сейчас __начать свой путь к богатству и процветанию\\.__ Создайте целевой накопительный счет на свою мечту и переведите туда 5000 ✉\uFE0F",
-    "9": "Ура\\! *Поздравляю\u0021 9-й сектор тоже готов* \uD83C\uDF8A\nУже совсем скоро я вышлю __активацию__, а пока можно поблагодарить себя за проделанную работу\\. Присылай фото своей карты и жди ее исполнения \uD83D\uDD1C"
+    "9": "Ура\\! *Поздравляю\u0021 9\\-й сектор тоже готов* \uD83C\uDF8A\nУже совсем скоро я вышлю __активацию__, а пока можно поблагодарить себя за проделанную работу\\. Присылай фото своей карты и жди ее исполнения \uD83D\uDD1C"
   },
   "negative": {
     "1": "Сегодня сектор здоровья \uD83E\uDE7A\n За незаполненный сектор предусматривается штраф:  || 50 приседаний\uD83E\uDD38\uD83C\uDFFB ||",
@@ -33,15 +33,15 @@
     "9": "Вот и наступил *завершающий сектор марафона*\\! За невыполнение которого, предлагаю вернуться к тем секторам, которые не заполнены\\. Карта Желаний должна быть полностью заполнена для ее активации\uD83E\uDE84"
   },
   "video": {
-    "1": ["BAACAgIAAxkBAAIEnmdO3e_006vnxYHY2KLpVxX1SyhLAAI7WQACjc15ShFdw9t1gGxnNgQ", "BAACAgIAAxkBAAIEn2dO3ikBJDW6VFpDqoJnowLKPorxAAI-WQACjc15Srb0eI6VOsfcNgQ"],
+    "1": ["BAACAgIAAxkBAAIEnmdO3e_006vnxYHY2KLpVxX1SyhLAAI7WQACjc15ShFdw9t1gGxnNgQ", "BAACAgIAAxkBAAIEn2dO3ikBJDW6VFpDqoJnowLKPorxAAI\\-WQACjc15Srb0eI6VOsfcNgQ"],
     "2": "BAACAgIAAxkBAAIEoGdO3kwkc3dUHPm9hPXfnlAXdo7QAAJAWQACjc15SijSe2Yf2lNlNgQ",
-    "3": "BAACAgIAAxkBAAIEoWdO3mdHBHeFRa8z5bkuU_iGvw5-AAJCWQACjc15SoCjdkZARQ5ONgQ",
-    "4": ["BAACAgIAAxkBAAIEomdO3oo5gJ61UuRchpUHtzh4gubvAAJEWQACjc15StZLIhkm-divNgQ", "BAACAgIAAxkBAAIEo2dO3p55tCTTci0sCzXznghqMAO1AAJFWQACjc15StCg23PBCPXcNgQ"],
+    "3": "BAACAgIAAxkBAAIEoWdO3mdHBHeFRa8z5bkuU_iGvw5\\-AAJCWQACjc15SoCjdkZARQ5ONgQ",
+    "4": ["BAACAgIAAxkBAAIEomdO3oo5gJ61UuRchpUHtzh4gubvAAJEWQACjc15StZLIhkm\\-divNgQ", "BAACAgIAAxkBAAIEo2dO3p55tCTTci0sCzXznghqMAO1AAJFWQACjc15StCg23PBCPXcNgQ"],
     "5": "BAACAgIAAxkBAAIEpGdO3s85hkbPmXhtps5esCclRC9BAAJGWQACjc15SmE_MnhQmUFFNgQ",
     "6": "BAACAgIAAxkBAAIEpWdO3vP7Y9cmKSxU_a3zDVlX5zVzAAJHWQACjc15Sp_mRWEnMkSJNgQ",
-    "7": ["BAACAgIAAxkBAAIEpmdO3xYV2UdrfdBQGHpao4rXk_MbAAJJWQACjc15Ss11knzSOndjNgQ", "BAACAgIAAxkBAAIEp2dO30C6TDPwmu2-pg7iWiJfUKHwAAJNWQACjc15SiGgoYitbkFgNgQ"],
+    "7": ["BAACAgIAAxkBAAIEpmdO3xYV2UdrfdBQGHpao4rXk_MbAAJJWQACjc15Ss11knzSOndjNgQ", "BAACAgIAAxkBAAIEp2dO30C6TDPwmu2\\-pg7iWiJfUKHwAAJNWQACjc15SiGgoYitbkFgNgQ"],
     "8": "BAACAgIAAxkBAAIEqGdO32vVgKeDFGTuwfL1Xaj3X1VoAAJRWQACjc15SoZ3mZXY6xFVNgQ",
     "9": ["BAACAgIAAxkBAAIEqWdO37MURMwIWIY5IxjDrdN2ilG2AAJUWQACjc15Sk8UNcFJS4AbNgQ", "BAACAgIAAxkBAAIEqmdO391oXvROq1WQEnvcT5NWgoBRAAJWWQACjc15SgeVrnGZ7b_TNgQ"],
-    "10": ["BAACAgIAAxkBAAIEq2dO4BtysNM3fg-vQrpqqDR6U9zwAAJaWQACjc15Sk0GZjCZ-DmeNgQ", "BAACAgIAAxkBAAIErGdO4DSqdnk68yPn7IkbGVCL_Sd4AAJbWQACjc15So_eCQ_KkF2_NgQ"]
+    "10": ["BAACAgIAAxkBAAIEq2dO4BtysNM3fg\\-vQrpqqDR6U9zwAAJaWQACjc15Sk0GZjCZ\\-DmeNgQ", "BAACAgIAAxkBAAIErGdO4DSqdnk68yPn7IkbGVCL_Sd4AAJbWQACjc15So_eCQ_KkF2_NgQ"]
   }
 }

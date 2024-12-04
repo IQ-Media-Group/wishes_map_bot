@@ -138,7 +138,7 @@ async def get_callback(call: CallbackQuery):
 🌻22.09-05.10
 🍁22.10-04.11
 🌧21.11-04.12
-🌲21.12-31.12""", reply_markup=instruction_2.as_markup(), parse_mode=ParseMode.MARKDOWN_V2)
+🌲21.12-31.12""", reply_markup=instruction_2.as_markup())
 
     if call.data == "start_magic":
         user = get_usr_by_tg(call.message.chat.id)
