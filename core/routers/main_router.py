@@ -32,4 +32,4 @@ async def start(mes: Message, state: FSMContext):
 
 @router.message(Command("call"))
 async def test3(msg: Message):
-    await msg.answer("*Предпоследний сектор готов*\\! \nвотвлтво ", parse_mode=ParseMode.MARKDOWN_V2)
+    await msg.answer("*Предпоследний сектор готов*\\! \nвотвлтво ", parse_mode=ParseMode.HTML)

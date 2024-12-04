@@ -30,7 +30,7 @@ async def send_user_day(msg: Message, day: int, user: dict):
                     await msg.answer_video(video=video)
                 except Exception as e:
                     logging.info(e)
-    await msg.answer(text=wish_s.get("tasks").get(str(user['day_counter'])), parse_mode=ParseMode.MARKDOWN_V2)
+    await msg.answer(text=wish_s.get("tasks").get(str(user['day_counter'])), parse_mode=ParseMode.HTML)
     create_msg_to_send(
         user['tg_id'],
         datetime.datetime.now() + datetime.timedelta(seconds=15),
@@ -57,7 +57,7 @@ async def send_user_day_2(bot: Bot, text: str, user: dict):
                     except Exception as e:
                         logging.info(e)
 
-        await bot.send_message(chat_id=user['tg_id'], text=text)
+        await bot.send_message(chat_id=user['tg_id'], text=text, parse_mode=ParseMode.HTML)
         create_msg_to_send(
             user['tg_id'],
             datetime.datetime.now() + datetime.timedelta(seconds=15),
@@ -74,7 +74,10 @@ async def send_user_day_3(bot: Bot, text: str, user: dict):
         videos = wish_s.get("video").get("10")
         await bot.send_message(user['tg_id'], text)
         for video in videos:
-            await bot.send_video(user['tg_id'], video=video)
+            try:
+                await bot.send_video(user['tg_id'], video=video)
+            except Exception as e:
+                logging.info(e)
     else:
         await bot.send_message(user['tg_id'], text)
 
@@ -88,7 +91,7 @@ async def get_callback(call: CallbackQuery):
         await call.message.answer(INSTRUCTION)
 
     if call.data == "yes":
-        await call.message.answer(text=wish_s.get("positive").get(str(user_data.get("day_counter"))), parse_mode=ParseMode.MARKDOWN_V2)
+        await call.message.answer(text=wish_s.get("positive").get(str(user_data.get("day_counter"))), parse_mode=ParseMode.HTML)
         await call.message.edit_reply_markup(reply_markup=None)
         update_day_counter(call.message.chat.id)
         if user_data.get("day_counter") < 9:
@@ -107,7 +110,7 @@ async def get_callback(call: CallbackQuery):
                                )
 
     if call.data == "no":
-        await call.message.answer(text=wish_s.get("negative").get(str(user_data.get("day_counter"))), parse_mode=ParseMode.MARKDOWN_V2)
+        await call.message.answer(text=wish_s.get("negative").get(str(user_data.get("day_counter"))), parse_mode=ParseMode.HTML)
         await call.message.edit_reply_markup(reply_markup=None)
         update_day_counter(call.message.chat.id)
         if user_data.get("day_counter") <= 9:
@@ -121,7 +124,7 @@ async def get_callback(call: CallbackQuery):
                                    datetime.datetime.now() + datetime.timedelta(seconds=20),
                                    text="""Жду от вас фото вашей карты желаний!
 
-        То что вы пришлете, не увидит никто кроме вас. Но именно сейчас, настало время вашей ответственности: какую фотографию карты желаний вы вышлите, то и активируется.""",
+То что вы пришлете, не увидит никто кроме вас. Но именно сейчас, настало время вашей ответственности: какую фотографию карты желаний вы вышлите, то и активируется.""",
                                    msg_type="last"
                                    )
 
@@ -180,7 +183,7 @@ async def send_daily_msgs(bot: Bot):
 async def get_user_map(msg: Message):
     user = get_usr_by_tg(msg.chat.id)
     if user.get("day_counter") == 10:
-        await msg.answer("🎉", parse_mode=ParseMode.MARKDOWN_V2)
+        await msg.answer("🎉", parse_mode=ParseMode.HTML)
         update_day_counter(user.get("tg_id"))
         create_msg_to_send(
             user['tg_id'],
