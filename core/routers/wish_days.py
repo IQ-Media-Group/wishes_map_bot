@@ -3,6 +3,7 @@ import datetime
 import logging
 
 from aiogram import Router, Bot
+from aiogram.enums import ParseMode
 from aiogram.types import Message, CallbackQuery
 from aiogram import F
 
@@ -29,7 +30,7 @@ async def send_user_day(msg: Message, day: int, user: dict):
                     await msg.answer_video(video=video)
                 except Exception as e:
                     logging.info(e)
-    await msg.answer(text=wish_s.get("tasks").get(str(user['day_counter'])))
+    await msg.answer(text=wish_s.get("tasks").get(str(user['day_counter'])), parse_mode=ParseMode.MARKDOWN_V2)
     create_msg_to_send(
         user['tg_id'],
         datetime.datetime.now() + datetime.timedelta(seconds=15),
@@ -84,10 +85,10 @@ async def get_callback(call: CallbackQuery):
     user_data = get_user_by(call.message.chat.id)[0]
     wish_s = get_wish_settings()
     if data == "instruction":
-        await call.message.answer(INSTRUCTION)
+        await call.message.answer(INSTRUCTION, parse_mode=ParseMode.MARKDOWN_V2)
 
     if call.data == "yes":
-        await call.message.answer(text=wish_s.get("positive").get(str(user_data.get("day_counter"))))
+        await call.message.answer(text=wish_s.get("positive").get(str(user_data.get("day_counter"))), parse_mode=ParseMode.MARKDOWN_V2)
         await call.message.edit_reply_markup(reply_markup=None)
         update_day_counter(call.message.chat.id)
         if user_data.get("day_counter") < 9:
@@ -106,7 +107,7 @@ async def get_callback(call: CallbackQuery):
                                )
 
     if call.data == "no":
-        await call.message.answer(text=wish_s.get("negative").get(str(user_data.get("day_counter"))))
+        await call.message.answer(text=wish_s.get("negative").get(str(user_data.get("day_counter"))), parse_mode=ParseMode.MARKDOWN_V2)
         await call.message.edit_reply_markup(reply_markup=None)
         update_day_counter(call.message.chat.id)
         if user_data.get("day_counter") <= 9:
@@ -137,7 +138,7 @@ async def get_callback(call: CallbackQuery):
 🌻22.09-05.10
 🍁22.10-04.11
 🌧21.11-04.12
-🌲21.12-31.12""", reply_markup=instruction_2.as_markup())
+🌲21.12-31.12""", reply_markup=instruction_2.as_markup(), parse_mode=ParseMode.MARKDOWN_V2)
 
     if call.data == "start_magic":
         user = get_usr_by_tg(call.message.chat.id)
@@ -179,7 +180,7 @@ async def send_daily_msgs(bot: Bot):
 async def get_user_map(msg: Message):
     user = get_usr_by_tg(msg.chat.id)
     if user.get("day_counter") == 10:
-        await msg.answer("🎉")
+        await msg.answer("🎉", parse_mode=ParseMode.MARKDOWN_V2)
         update_day_counter(user.get("tg_id"))
         create_msg_to_send(
             user['tg_id'],

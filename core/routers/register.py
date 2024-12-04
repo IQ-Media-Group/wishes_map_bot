@@ -2,6 +2,7 @@ import datetime
 from threading import Thread
 
 from aiogram import Router
+from aiogram.enums import ParseMode
 from aiogram.types import Message, FSInputFile
 from aiogram.fsm.context import FSMContext
 from aiogram import F
@@ -21,7 +22,12 @@ async def show_form(mes: Message, state: FSMContext):
     user = get_user_by(mes.from_user.id)[0]
     update_user_phone(data.get('phone'), data.get('tg_id'))
     if user.get("join_date").date() <= datetime.date(2024, 12, 2):
-        await mes.answer_video(video="BAACAgIAAxkBAAICQ2dMj5NSDDcG9Tyz6bj7Ofu0FYsPAAKoZgAC-XloSgPtw2y8dmBeNgQ", caption=REG_MSG_2, reply_markup=instruction_2.as_markup())
+        await mes.answer_video(
+            video="BAACAgIAAxkBAAICQ2dMj5NSDDcG9Tyz6bj7Ofu0FYsPAAKoZgAC-XloSgPtw2y8dmBeNgQ",
+            caption=REG_MSG_2,
+            reply_markup=instruction_2.as_markup(),
+            parse_mode=ParseMode.MARKDOWN_V2
+        )
     else:
         await mes.answer_video(video="BAACAgIAAxkBAAICQ2dMj5NSDDcG9Tyz6bj7Ofu0FYsPAAKoZgAC-XloSgPtw2y8dmBeNgQ", caption=REG_MSG_2, reply_markup=instruction_2.as_markup())
     await state.clear()
@@ -42,7 +48,8 @@ async def get_phone(mes: Message, state: FSMContext):
         await show_form(mes, state)
     else:
         await mes.answer(text="Неверный формат номера. Попробуйте ещё раз. Номер телефона должен содержать 11 цифр и\
- начинаться с 7 или 8. Например, +79999999999")
+ начинаться с 7 или 8. Например, +79999999999",
+                         parse_mode=ParseMode.MARKDOWN_V2)
         await state.set_state(Form.phone)
 
 
@@ -50,18 +57,19 @@ async def get_phone(mes: Message, state: FSMContext):
 async def get_email(mes: Message, state: FSMContext):
     if email_validator(mes.text):
         await mes.answer(
-            text="Теперь мне нужен ваш телефон"
+            text="Теперь мне нужен ваш телефон",
+            parse_mode=ParseMode.MARKDOWN_V2
         )
         await state.update_data(email=mes.text)
         await state.set_state(Form.phone)
     else:
-        await mes.answer(text="Неверный формат почты. Попробуйте ещё раз. Например, example@example.com")
+        await mes.answer(text="Неверный формат почты. Попробуйте ещё раз. Например, example@example.com", parse_mode=ParseMode.MARKDOWN_V2)
         await state.set_state(Form.email)
 
 
 @router.message(Form.name)
 async def get_name(mes: Message, state: FSMContext):
-    await mes.answer(text="Какая у вас почта?")
+    await mes.answer(text="Какая у вас почта?", parse_mode=ParseMode.MARKDOWN_V2)
     await state.update_data(name=mes.text)
     await state.set_state(Form.email)
 
@@ -69,12 +77,12 @@ async def get_name(mes: Message, state: FSMContext):
 async def start_reg(mes: Message, state: FSMContext):
     user = get_user(mes.from_user.id)
     if user:
-        await mes.answer(text=HELLO_MSG_3)
-        await mes.answer(text=REG_MSG_2, reply_markup=instruction_2.as_markup())
+        await mes.answer(text=HELLO_MSG_3, parse_mode=ParseMode.MARKDOWN_V2)
+        await mes.answer(text=REG_MSG_2, reply_markup=instruction_2.as_markup(), parse_mode=ParseMode.MARKDOWN_V2)
         return
     if user and user.get("join_date") <= datetime.date(2024, 12, 2):
-        await mes.answer(text=HELLO_MSG)
+        await mes.answer(text=HELLO_MSG, parse_mode=ParseMode.MARKDOWN_V2)
     else:
-        await mes.answer(text=HELLO_MSG_2)
+        await mes.answer(text=HELLO_MSG_2, parse_mode=ParseMode.MARKDOWN_V2)
     await state.update_data(tg_id=mes.from_user.id)
     await state.set_state(Form.name)

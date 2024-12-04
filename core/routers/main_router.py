@@ -4,6 +4,7 @@ from aiogram import Router, F
 from aiogram.filters import CommandStart, Command
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, FSInputFile
+from aiogram.enums.parse_mode import ParseMode
 
 from core.routers.register import start_reg
 
@@ -23,7 +24,12 @@ async def start(mes: Message, state: FSMContext):
 #     ...
 #
 #
-@router.message(F.video)
-def test2(msg: Message):
-    print("test2")
-    logging.info(f"{msg.video.file_id} | {msg.video.file_name}")
+# @router.message(F.video)
+# def test2(msg: Message):
+#     print("test2")
+#     logging.info(f"{msg.video.file_id} | {msg.video.file_name}")
+
+
+# @router.message(Command("call"))
+# async def test3(msg: Message):
+#     await msg.answer("**Предпоследний сектор готов!** \uD83C\uDFC5\nПредлагаю в качестве благодарности к себе за выполненную работу прямо сейчас __начать свой путь к богатству и процветанию.__ Создайте целевой накопительный счет на свою мечту и переведите туда 5000 ✉\uFE0F")
