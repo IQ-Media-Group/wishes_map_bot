@@ -30,6 +30,6 @@ async def start(mes: Message, state: FSMContext):
 #     logging.info(f"{msg.video.file_id} | {msg.video.file_name}")
 
 
-# @router.message(Command("call"))
-# async def test3(msg: Message):
-#     await msg.answer("**Предпоследний сектор готов!** \uD83C\uDFC5\nПредлагаю в качестве благодарности к себе за выполненную работу прямо сейчас __начать свой путь к богатству и процветанию.__ Создайте целевой накопительный счет на свою мечту и переведите туда 5000 ✉\uFE0F")
+@router.message(Command("call"))
+async def test3(msg: Message):
+    await msg.answer("*Предпоследний сектор готов*\\! \nвотвлтво ", parse_mode=ParseMode.MARKDOWN_V2)
