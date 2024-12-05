@@ -88,7 +88,7 @@ async def get_callback(call: CallbackQuery):
     user_data = get_user_by(call.message.chat.id)[0]
     wish_s = get_wish_settings()
     if data == "instruction":
-        await call.message.answer(INSTRUCTION)
+        await call.message.answer(INSTRUCTION, reply_markup=instruction_2.as_markup())
 
     if call.data == "yes":
         await call.message.answer(text=wish_s.get("positive").get(str(user_data.get("day_counter"))), parse_mode=ParseMode.HTML)
