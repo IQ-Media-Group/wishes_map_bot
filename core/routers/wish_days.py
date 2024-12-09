@@ -18,6 +18,10 @@ router = Router()
 
 
 async def send_user_day(msg: Message, day: int, user: dict):
+    if not user['payment_status']:
+        await msg.answer(PAYMENT_MSG, reply_markup=payment_kb.as_markup())
+        return
+
     wish_s = get_wish_settings()
     videos = wish_s['video'].get(str(day))
     if videos:
@@ -42,6 +46,10 @@ async def send_user_day(msg: Message, day: int, user: dict):
 
 
 async def send_user_day_2(bot: Bot, text: str, user: dict):
+    if not user['payment_status']:
+        await bot.send_message(user['tg_id'], PAYMENT_MSG, reply_markup=payment_kb.as_markup())
+        return
+
     if user['day_counter'] <= 9:
         wish_s = get_wish_settings()
         videos = wish_s['video'].get(str(user['day_counter']))
@@ -69,6 +77,10 @@ async def send_user_day_2(bot: Bot, text: str, user: dict):
 
 
 async def send_user_day_3(bot: Bot, text: str, user: dict):
+    if not user['payment_status']:
+        await bot.send_message(user['tg_id'], PAYMENT_MSG, reply_markup=payment_kb.as_markup())
+        return
+
     wish_s = get_wish_settings()
     if "Благодарим за то, что прошли этот Марафон до конца." in text:
         await bot.send_message(user['tg_id'], text, reply_markup=final_kb.as_markup())
@@ -171,6 +183,8 @@ async def get_callback(call: CallbackQuery):
         if payments:
             update_user_payment(user['id'], True)
             await call.message.answer("Отлично, вижу вашу оплату. Можете продолжить пользоваться ботом!")
+            set_user_day(1, call.from_user.id)
+            user['payment_status'] = True
             await send_user_day(call.message, 1, user)
         else:
             update_user_payment(user['id'], False)
