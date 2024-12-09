@@ -7,6 +7,7 @@ from core.db.scripts import get_user
 from core.routers.main_router import router as main_router
 from core.routers.register import router as register_router
 from core.routers.wish_days import router as wish_router, send_daily_msgs
+from core.routers.payment import router as payment_router
 from core.db.config import settings
 
 
@@ -15,6 +16,7 @@ def register_messages(dp: Dispatcher):
     Routers registration
     :param dp:
     """
+    dp.include_router(payment_router)
     dp.include_router(wish_router)
     dp.include_router(register_router)
     dp.include_router(main_router)

@@ -6,6 +6,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, FSInputFile
 from aiogram.enums.parse_mode import ParseMode
 
+from core.keyboards.wish_kb import payment_kb
 from core.routers.register import start_reg
 
 router = Router()
@@ -30,6 +31,6 @@ async def start(mes: Message, state: FSMContext):
 #     logging.info(f"{msg.video.file_id} | {msg.video.file_name}")
 
 
-# @router.message(Command("call"))
-# async def test3(msg: Message):
-#     await msg.answer("*Предпоследний сектор готов*\\! \nвотвлтво ", parse_mode=ParseMode.HTML)
+@router.message(Command("call"))
+async def test3(msg: Message):
+    await msg.answer("sbcksdnckjsdncsdkjcnk", reply_markup=payment_kb.as_markup())

@@ -1,4 +1,5 @@
 import datetime
+import logging
 from threading import Thread
 
 from aiogram import Router
@@ -22,19 +23,27 @@ async def show_form(mes: Message, state: FSMContext):
     user = get_user_by(mes.from_user.id)[0]
     update_user_phone(data.get('phone'), data.get('tg_id'))
     if user.get("join_date").date() <= datetime.date(2024, 12, 2):
-        await mes.answer_video(
-            video="BAACAgIAAxkBAAICQ2dMj5NSDDcG9Tyz6bj7Ofu0FYsPAAKoZgAC-XloSgPtw2y8dmBeNgQ",
-            caption=REG_MSG_2,
-            reply_markup=instruction_2.as_markup(),
-            parse_mode=ParseMode.HTML
-        )
+        try:
+            await mes.answer_video(
+                video="BAACAgIAAxkBAAICQ2dMj5NSDDcG9Tyz6bj7Ofu0FYsPAAKoZgAC-XloSgPtw2y8dmBeNgQ",
+                caption=REG_MSG_2,
+                reply_markup=instruction_2.as_markup(),
+                parse_mode=ParseMode.HTML
+            )
+        except Exception as e:
+            logging.info(e)
+            await mes.answer(REG_MSG_2, reply_markup=instruction_2.as_markup(), parse_mode=ParseMode.HTML)
     else:
-        await mes.answer_video(
-            video="BAACAgIAAxkBAAICQ2dMj5NSDDcG9Tyz6bj7Ofu0FYsPAAKoZgAC-XloSgPtw2y8dmBeNgQ",
-            caption=REG_MSG_2,
-            reply_markup=instruction_2.as_markup(),
-            parse_mode=ParseMode.HTML
-        )
+        try:
+            await mes.answer_video(
+                video="BAACAgIAAxkBAAICQ2dMj5NSDDcG9Tyz6bj7Ofu0FYsPAAKoZgAC-XloSgPtw2y8dmBeNgQ",
+                caption=REG_MSG_2,
+                reply_markup=instruction_2.as_markup(),
+                parse_mode=ParseMode.HTML
+            )
+        except Exception as e:
+            logging.info(e)
+            await mes.answer(REG_MSG_2, reply_markup=instruction_2.as_markup(), parse_mode=ParseMode.HTML)
     await state.clear()
 
 

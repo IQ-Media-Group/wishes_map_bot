@@ -114,6 +114,13 @@ def update_user_status(status, email):
         conn.commit()
 
 
+def update_user_payment(u_id: int, status: bool):
+    with engine.connect() as conn:
+        stmt = update(tg_users).where(tg_users.c.id == u_id).values(payment_status=status)
+        conn.execute(stmt)
+        conn.commit()
+
+
 def check_payment(email: str) -> None:
     user_payments: list = get_payment_from_db(email)
     if user_payments:

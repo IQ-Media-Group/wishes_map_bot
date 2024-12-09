@@ -22,3 +22,6 @@ y_or_n.add(InlineKeyboardButton(text="Нет", callback_data="no"))
 
 final_kb = InlineKeyboardBuilder()
 final_kb.add(InlineKeyboardButton(text="Предзапись в академию Norland", url="https://norland.academy/anketa"))
+
+payment_kb = InlineKeyboardBuilder()
+payment_kb.add(InlineKeyboardButton(text="Проверить мою оплату", callback_data="check_payment"))
