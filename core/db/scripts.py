@@ -299,3 +299,10 @@ def set_user_day(day: int, tg_id: int):
         stmt = update(tg_users).where(tg_users.c.tg_id == tg_id).values(day_counter=day)
         conn.execute(stmt)
         conn.commit()
+
+
+def del_blocked_users(tg_id: int):
+    with engine.connect() as conn:
+        stmt = delete(send_msgs).where(send_msgs.c.chat_id == tg_id)
+        conn.execute(stmt)
+        conn.commit()

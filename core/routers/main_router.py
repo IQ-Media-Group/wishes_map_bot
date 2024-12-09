@@ -30,6 +30,6 @@ async def start(mes: Message, state: FSMContext):
 #     logging.info(f"{msg.video.file_id} | {msg.video.file_name}")
 
 
-@router.message(Command("call"))
-async def test3(msg: Message):
-    await msg.answer("*Предпоследний сектор готов*\\! \nвотвлтво ", parse_mode=ParseMode.HTML)
+# @router.message(Command("call"))
+# async def test3(msg: Message):
+#     await msg.answer("*Предпоследний сектор готов*\\! \nвотвлтво ", parse_mode=ParseMode.HTML)

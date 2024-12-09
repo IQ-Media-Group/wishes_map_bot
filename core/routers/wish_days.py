@@ -6,9 +6,10 @@ from aiogram import Router, Bot
 from aiogram.enums import ParseMode
 from aiogram.types import Message, CallbackQuery
 from aiogram import F
+from aiogram.exceptions import TelegramForbiddenError
 
 from core.db.scripts import get_user_data, get_user_by, get_wish_settings, update_day_counter, create_del_msg, \
-    del_user_msgs, get_usr_by_tg, set_user_day, create_msg_to_send, get_send_msgs, set_msgs_sent
+    del_user_msgs, get_usr_by_tg, set_user_day, create_msg_to_send, get_send_msgs, set_msgs_sent, del_blocked_users
 from core.keyboards.wish_kb import y_or_n, instruction_2, final_kb
 from texts import INSTRUCTION
 
@@ -161,6 +162,8 @@ async def send_daily_msgs(bot: Bot):
                 try:
                     await bot.send_message(chat_id=msg['chat_id'], text=msg['text'], reply_markup=y_or_n.as_markup())
                     set_msgs_sent(msg['id'])
+                except TelegramForbiddenError:
+                    del_blocked_users(msg['chat_id'])
                 except Exception as e:
                     logging.info(e)
             elif msg['type'] == 'task':
@@ -168,6 +171,8 @@ async def send_daily_msgs(bot: Bot):
                 try:
                     await send_user_day_2(bot, msg['text'], user)
                     set_msgs_sent(msg['id'])
+                except TelegramForbiddenError:
+                    del_blocked_users(msg['chat_id'])
                 except Exception as e:
                     logging.info(e)
             else:
@@ -175,6 +180,8 @@ async def send_daily_msgs(bot: Bot):
                 try:
                     await send_user_day_3(bot, msg['text'], user)
                     set_msgs_sent(msg['id'])
+                except TelegramForbiddenError:
+                    del_blocked_users(msg['chat_id'])
                 except Exception as e:
                     logging.info(e)
 
