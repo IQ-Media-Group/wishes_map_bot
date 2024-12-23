@@ -39,7 +39,7 @@ async def send_user_day(msg: Message, day: int, user: dict):
     await msg.answer(text=wish_s.get("tasks").get(str(user['day_counter'])), parse_mode=ParseMode.HTML)
     create_msg_to_send(
         user['tg_id'],
-        datetime.datetime.now().replace(hour=21, minute=0, second=0),
+        datetime.datetime.now().replace(hour=18, minute=0, second=0),
         "Сегодняшний сектор карты уже готов?",
         msg_type="question"
     )
@@ -70,7 +70,7 @@ async def send_user_day_2(bot: Bot, text: str, user: dict):
         await bot.send_message(chat_id=user['tg_id'], text=text, parse_mode=ParseMode.HTML)
         create_msg_to_send(
             user['tg_id'],
-            datetime.datetime.now().replace(hour=21, minute=0, second=0),
+            datetime.datetime.now().replace(hour=18, minute=0, second=0),
             "Сегодняшний сектор карты уже готов?",
             msg_type="question"
         )
@@ -110,13 +110,13 @@ async def get_callback(call: CallbackQuery):
         update_day_counter(call.message.chat.id)
         if user_data.get("day_counter") < 9:
             create_msg_to_send(call.message.chat.id,
-                               datetime.datetime.now().replace(hour=10, minute=0, second=0) + datetime.timedelta(days=1),
+                               datetime.datetime.now().replace(hour=7, minute=0, second=0) + datetime.timedelta(days=1),
                                text=wish_s.get('tasks').get(str(user_data['day_counter'] + 1)),
                                msg_type="task"
                                )
         if user_data.get("day_counter") == 9:
             create_msg_to_send(call.message.chat.id,
-                               datetime.datetime.now().replace(hour=21, minute=30, second=0) + datetime.timedelta(days=1),
+                               datetime.datetime.now().replace(hour=18, minute=30, second=0) + datetime.timedelta(days=1),
                                text="""Жду от вас фото вашей карты желаний!
 
 То что вы пришлете, не увидит никто кроме вас. Но именно сейчас, настало время вашей ответственности: какую фотографию карты желаний вы вышлите, то и активируется.""",
@@ -135,7 +135,7 @@ async def get_callback(call: CallbackQuery):
                                )
             if user_data.get("day_counter") == 9:
                 create_msg_to_send(call.message.chat.id,
-                                   datetime.datetime.now().replace(hour=21, minute=30, second=0) + datetime.timedelta(days=1),
+                                   datetime.datetime.now().replace(hour=18, minute=30, second=0) + datetime.timedelta(days=1),
                                    text="""Жду от вас фото вашей карты желаний!
 
 То что вы пришлете, не увидит никто кроме вас. Но именно сейчас, настало время вашей ответственности: какую фотографию карты желаний вы вышлите, то и активируется.""",
@@ -234,13 +234,13 @@ async def get_user_map(msg: Message):
         update_day_counter(user.get("tg_id"))
         create_msg_to_send(
             user['tg_id'],
-            datetime.datetime.now().replace(hour=9, minute=0, second=0) + datetime.timedelta(days=1),
+            datetime.datetime.now().replace(hour=6, minute=0, second=0) + datetime.timedelta(days=1),
             "Настал тот самый день! Сегодня вы получите инструкции, как сделать так, чтобы ваша карта заработала на полную мощность!",
             "last"
         )
         create_msg_to_send(
             user['tg_id'],
-            datetime.datetime.now().replace(hour=10, minute=0, second=0) + datetime.timedelta(days=1),
+            datetime.datetime.now().replace(hour=7, minute=0, second=0) + datetime.timedelta(days=1),
             """Благодарим за то, что прошли этот Марафон до конца. Пусть эта карта будет вашим компасом для достижения целей. Для этого вам может понадобиться обучение. Узнать об образовательных продуктах Norland academy""",
             "last"
         )

@@ -265,7 +265,7 @@ def get_usr_by_tg(tg_id: int) ->dict | None:
 
 def get_send_msgs():
     with engine.connect() as conn:
-        now = datetime.datetime.now() - datetime.timedelta(hours=3)
+        now = datetime.datetime.now()
         stmt = (
             select(send_msgs)
             .where(send_msgs.c.is_sent == False)
