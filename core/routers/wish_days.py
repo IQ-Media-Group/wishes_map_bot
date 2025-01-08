@@ -12,7 +12,7 @@ from core.db.scripts import get_user_data, get_user_by, get_wish_settings, updat
     del_user_msgs, get_usr_by_tg, set_user_day, create_msg_to_send, get_send_msgs, set_msgs_sent, del_blocked_users, \
     get_payment_from_db, update_user_payment, get_payments
 from core.keyboards.wish_kb import y_or_n, instruction_2, final_kb, payment_kb
-from texts import INSTRUCTION, PAYMENT_MSG
+from texts import INSTRUCTION, PAYMENT_MSG, DAY_10
 
 router = Router()
 
@@ -235,7 +235,7 @@ async def get_user_map(msg: Message):
         create_msg_to_send(
             user['tg_id'],
             datetime.datetime.now().replace(hour=6, minute=0, second=0) + datetime.timedelta(days=1),
-            "Настал тот самый день! Сегодня вы получите инструкции, как сделать так, чтобы ваша карта заработала на полную мощность!",
+            DAY_10,
             "last"
         )
         create_msg_to_send(
