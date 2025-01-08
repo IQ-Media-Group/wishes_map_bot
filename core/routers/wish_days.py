@@ -84,7 +84,7 @@ async def send_user_day_3(bot: Bot, text: str, user: dict):
     wish_s = get_wish_settings()
     if "Благодарим за то, что прошли этот Марафон до конца." in text:
         await bot.send_message(user['tg_id'], text, reply_markup=final_kb.as_markup())
-    elif "Поздравляем Вас с успешным созданием Вашей карты желаний!" in text:
+    elif "Совсем скоро наступит самый волшебный праздник" in text:
         videos = wish_s.get("video").get("10")
         await bot.send_message(user['tg_id'], text, parse_mode=ParseMode.HTML)
         for video in videos:
