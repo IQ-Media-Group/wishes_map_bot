@@ -102,7 +102,12 @@ def get_payment_from_db(email: str) -> list[tuple]:
     with engine.connect() as conn:
         stmt = select(payments).where(
             payments.c.email == email
-        ).where(payments.c.name.in_(['Марафон "Карта желаний 2025"', 'Предзапись', 'Марафон "Карта желаний 2025" Предзапись']))
+        ).where(payments.c.name.in_([
+            'Марафон "Карта желаний 2025"',
+            'Предзапись',
+            'Марафон "Карта желаний 2025" Предзапись',
+            'Марафон "Карта желаний 2025" карта в подарок'
+                                     ]))
         return conn.execute(stmt).fetchall()
 
 
